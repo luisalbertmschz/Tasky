@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { Eye, EyeOff, Lock, Mail, User, Building, Shield } from 'lucide-react';
-import { AuthService } from '../services/authService';
+import { FirebaseAuthService } from '../services/firebaseAuthService';
 
 const loginSchema = z.object({
   email: z.string().email('Email inválido'),
@@ -50,7 +50,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSuccess }) => {
     setError('');
     
     try {
-      const result = await AuthService.signIn(data.email, data.password);
+      const result = await FirebaseAuthService.signIn(data.email, data.password);
       if (result.user) {
         onSuccess(result.user);
       }
@@ -66,7 +66,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSuccess }) => {
     setError('');
     
     try {
-      const result = await AuthService.signUp(data.email, data.password, {
+      const result = await FirebaseAuthService.signUp(data.email, data.password, {
         name: data.name,
         longName: data.longName,
         role: data.role,
